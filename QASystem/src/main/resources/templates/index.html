@@ -1,12 +1,34 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="content-type" content="text/html;charset=UTF-8">
-    <title>问答系统--首页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>主页</title>
 </head>
 <body>
-<a href="login.html" th:href="@{/login}">Login</a>
-<img src="/static/a.PNG">
+<h1><del>请脑补主页</del></h1>
+<th:block th:if="${session.username}==null">
+    <a href="/login" th:href="@{/login}">登录</a>
+</th:block>
+<th:block th:if="${session.username}!=null">
+    <th:block th:if="${session.iden}=='iden_admin'">
+        <div>
+            <p th:text="${session.username}"></p>您好，
+            <a href="/manage" th:href="@{/manage}">管理</a>
+            <a th:href="@{/logout}">退出</a>
+        </div>
+    </th:block>
+    <th:block th:if="${session.iden}=='iden_teacher'">
+        <div>
+            <p th:text="${session.username}"></p>老师您好，
+            <a th:href="@{/logout}">退出</a>
+        </div>
+    </th:block>
+    <th:block th:if="${session.iden}=='iden_student'">
+        <div>
+            <p th:text="${session.username}"></p>同学您好，
+            <a th:href="@{/logout}">退出</a>
+        </div>
+    </th:block>
+</th:block>
 </body>
 </html>

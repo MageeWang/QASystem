@@ -1,6 +1,0 @@
-server:
-  servlet:
-    context-path: /dev
-
-admin: root
-psw: root
