@@ -2,33 +2,89 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>主页</title>
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
 </head>
-<body>
-<h1><del>请脑补主页</del></h1>
-<th:block th:if="${session.username}==null">
-    <a href="/login" th:href="@{/login}">登录</a>
-</th:block>
-<th:block th:if="${session.username}!=null">
-    <th:block th:if="${session.iden}=='iden_admin'">
-        <div>
-            <p th:text="${session.username}"></p>您好，
-            <a href="/manage" th:href="@{/manage}">管理</a>
-            <a th:href="@{/logout}">退出</a>
+
+<body class="body">
+    <header class="head">
+        <div style="float: right;margin-right: 0;margin-top: 0">
+            <th:block th:if="${session.username}==null">
+                <a href="/login" th:href="@{/login}">登录</a>
+            </th:block>
+            <th:block th:if="${session.username}!=null">
+                <th:block th:if="${session.iden}=='iden_admin'">
+                    <div>
+                        <p th:text="${session.username}"></p>您好，
+                        <a href="/manage" th:href="@{/manage}">管理</a>
+                        <a th:href="@{/logout}">退出</a>
+                    </div>
+                </th:block>
+                <th:block th:if="${session.iden}=='iden_teacher'">
+                    <div>
+                        <p th:text="${session.username}"></p>老师您好，
+                        <a th:href="@{/logout}">退出</a>
+                    </div>
+                </th:block>
+                <th:block th:if="${session.iden}=='iden_student'">
+                    <div>
+                        <p th:text="${session.username}"></p>同学您好，
+                        <a th:href="@{/logout}">退出</a>
+                    </div>
+                </th:block>
+            </th:block>
         </div>
-    </th:block>
-    <th:block th:if="${session.iden}=='iden_teacher'">
-        <div>
-            <p th:text="${session.username}"></p>老师您好，
-            <a th:href="@{/logout}">退出</a>
-        </div>
-    </th:block>
-    <th:block th:if="${session.iden}=='iden_student'">
-        <div>
-            <p th:text="${session.username}"></p>同学您好，
-            <a th:href="@{/logout}">退出</a>
-        </div>
-    </th:block>
-</th:block>
+    </header>
+    <nav class="nav">
+        <ul>
+            <li><a href="/" th:href="@{/}">首页</a></li>
+            <li><a href="/" th:href="@{/}">学院</a></li>
+            <li><a href="/" th:href="@{/}">查看所有留言</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <section class="left">
+            <ul>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </section>
+        <section class="main">
+            <p>
+                <div>
+                    <h3>Sample</h3><br>
+                    <p>SampleSampleSampleSampleSampleSampleSample</p>
+                    <p>Sample 于 1970年01月01日</p>
+                </div>
+            </p>
+            <p>
+                <div>
+                <h3>Sample</h3><br>
+                <p>SampleSampleSampleSampleSampleSampleSample</p>
+                <p>Sample 于 1970年01月01日</p>
+                </div>
+            </p>
+            <p>
+                <div>
+                <h3>Sample</h3><br>
+                <p>SampleSampleSampleSampleSampleSampleSample</p>
+                <p>Sample 于 1970年01月01日</p>
+                </div>
+            </p>
+        </section>
+        <section class="right">
+                <h3>xxx教程</h3>
+                <ul>
+                    <li>html</li>
+                    <li>html1</li>
+                    <li>html2</li>
+                    <li>html3</li>
+                    <li>html4</li>
+                </ul>
+        </section>
+    </div>
 </body>
+
 </html>
