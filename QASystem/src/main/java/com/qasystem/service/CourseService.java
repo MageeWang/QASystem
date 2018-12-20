@@ -8,5 +8,6 @@ public interface CourseService {
     int insert(Course course);
     int delete(Course course);
     int update(Course course);
-    List<Course> getCourseListByMid(Long Mid);
+    List<Course> getCourseListByDid(Long Did);
+    Course getCourseByCid(Long Cid);
 }

@@ -1,5 +1,6 @@
 package com.qasystem;
 
+import com.qasystem.service.implement.DepartmentImpl;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -36,5 +37,6 @@ public class QasystemApplication {
 
         return dataSource;
     }
+
 }
 

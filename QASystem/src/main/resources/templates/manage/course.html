@@ -15,20 +15,7 @@
             <th:block th:if="${session.iden}=='iden_admin'">
                 <div>
                     <span th:text="${session.username}"></span>您好，
-                    <a href="/manage" th:href="@{/manage}">管理</a>
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_teacher'">
-                <div>
-                    <span th:text="${session.username}"></span>老师您好，
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_student'">
-                <div>
-                    <span th:text="${session.username}"></span>同学您好，
+                    <a href="/manage" th:href="@{/templates/manage}">管理</a>
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
@@ -56,22 +43,42 @@
 </nav>
 <div class="content">
     <section class="left">
-
+        <ul>
+            <li><a id="deptManage" th:href="@{/manage/dept}">学院信息管理</a></li>
+            <li><a id="courseManage" th:href="@{/manage/course}">课程信息管理</a></li>
+            <li><a id="teacherManage" th:href="@{/manage/teacher}">教师信息管理</a></li>
+            <li><a id="questionManage" th:href="@{/search}">留言信息管理</a></li>
+        </ul>
     </section>
     <section class="main">
-        <th:block th:each="question:${QuestionList}">
-            <div style="background-color: #ccc;">
-                <a th:href="@{/question(Qid=${question.Qid})}"><h3><span th:text="${question.Qtitle}"></span></h3></a>
-                <p th:text="${question.Qtext}"></p>
-            </div>
-        </th:block>
+        <select id="deptDrop">
+            <option></option>
+            <th:block th:each="dept:${DeptList}">
+                <option th:text="${dept.Dname}" th:value="${dept.Did}"></option>
+            </th:block>
+        </select>
+        <table id="courseTable">
+        </table>
+        <div>
+            <p>添加课程信息</p>
+            课程号：<input type="text" name="Cid" id="Cid"><br>
+            课程名：<input type="text" name="Cname" id="Cname"><br>
+            课程信息：<input type="text" name="Cinfo" id="Cinfo"><br>
+            <button id="addCourse">添加</button>"
+        </div>
     </section>
     <section class="right">
-        <h3>xxx</h3>
+        <h3></h3>
         <ul>
-            <li>xxx</li>
+            <li>html</li>
+            <li>html1</li>
+            <li>html2</li>
+            <li>html3</li>
+            <li>html4</li>
         </ul>
     </section>
 </div>
+<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/managePage.js}"></script>
 </body>
 </html>

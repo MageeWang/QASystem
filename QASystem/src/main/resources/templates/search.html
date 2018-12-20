@@ -18,19 +18,6 @@
                     <a href="/manage" th:href="@{/manage}">管理</a>
                     <a th:href="@{/logout}">退出</a>
                 </div>
-
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_teacher'">
-                <div>
-                    <span th:text="${session.username}"></span>老师您好，
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_student'">
-                <div>
-                    <span th:text="${session.username}"></span>同学您好，
-                    <a th:href="@{/logout}">退出</a>
-                </div>
             </th:block>
         </th:block>
     </div>
@@ -59,7 +46,7 @@
 
     </section>
     <section class="main">
-        <th:block th:each="question:${QuestionList}">
+        <th:block th:each="question:${session.QuestionList}">
             <div style="background-color: #ccc;">
                 <a th:href="@{/question(Qid=${question.Qid})}"><h3><span th:text="${question.Qtitle}"></span></h3></a>
                 <p th:text="${question.Qtext}"></p>

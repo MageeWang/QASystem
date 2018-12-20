@@ -12,17 +12,24 @@ import java.util.List;
 public class CourseImpl implements CourseService {
     @Autowired
     private CourseMapper courseMapper;
-
+    @Override
     public int insert(Course course){
         return this.courseMapper.insert(course);
     }
+    @Override
     public int delete(Course course){
         return this.courseMapper.delete(course);
     }
+    @Override
     public int update(Course course){
         return this.courseMapper.update(course);
     }
-    public List<Course> getCourseListByMid(Long Mid){
-        return this.courseMapper.getCourseListByMid(Mid);
+    @Override
+    public List<Course> getCourseListByDid(Long Did){
+        return this.courseMapper.getCourseListByDid(Did);
+    }
+    @Override
+    public Course getCourseByCid(Long Cid){
+        return this.courseMapper.getCourseByCid(Cid);
     }
 }

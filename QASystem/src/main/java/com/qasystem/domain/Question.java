@@ -3,15 +3,48 @@ package com.qasystem.domain;
 public class Question {
     private Long Qid;
     private Long Sid;
-    private Long Tid;
+    private String Sname;
     private Long Cid;
-    private Long Mid;
+    private String Cname;
     private Long Did;
+    private String Dname;
     private String Qtitle;
     private String Qtext;
-    private String Qans;
     private String Qtime;
     private boolean Qfile;
+    private Integer Qunread;
+
+    public Integer getQunread() {
+        return Qunread;
+    }
+
+    public void setQunread(Integer qunread) {
+        Qunread = qunread;
+    }
+
+    public String getSname() {
+        return Sname;
+    }
+
+    public void setSname(String sname) {
+        Sname = sname;
+    }
+
+    public String getCname() {
+        return Cname;
+    }
+
+    public void setCname(String cname) {
+        Cname = cname;
+    }
+
+    public String getDname() {
+        return Dname;
+    }
+
+    public void setDname(String dname) {
+        Dname = dname;
+    }
 
     public Long getQid() {
         return Qid;
@@ -29,28 +62,12 @@ public class Question {
         Sid = sid;
     }
 
-    public Long getTid() {
-        return Tid;
-    }
-
-    public void setTid(Long tid) {
-        Tid = tid;
-    }
-
     public Long getCid() {
         return Cid;
     }
 
     public void setCid(Long cid) {
         Cid = cid;
-    }
-
-    public Long getMid() {
-        return Mid;
-    }
-
-    public void setMid(Long mid) {
-        Mid = mid;
     }
 
     public Long getDid() {
@@ -75,14 +92,6 @@ public class Question {
 
     public void setQtext(String qtext) {
         Qtext = qtext;
-    }
-
-    public String getQans() {
-        return Qans;
-    }
-
-    public void setQans(String qans) {
-        Qans = qans;
     }
 
     public String getQtime() {

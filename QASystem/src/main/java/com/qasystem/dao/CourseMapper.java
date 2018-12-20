@@ -9,12 +9,14 @@ import java.util.List;
 @Component
 @Mapper
 public interface CourseMapper {
-    @Insert("insert into Course values(#{Cid},#{Cname},#{Cinfo},#{Mid},#{Mname},#{Did},#{Dname})")
+    @Insert("insert into Course values(#{Cid},#{Cname},#{Cinfo},#{Did},#{Dname})")
     int insert(Course course);
     @Delete("delete from Course where Cid=#{Cid}")
     int delete(Course course);
-    @Update("update Course set Cname=#{Cname},Cinfo=#{Cinfo},Mid=#{Mid},Mname=#{Mname},Did=#{Did},Dname=#{Dname} where Cid=#{Cid}")
+    @Update("update Course set Cname=#{Cname},Cinfo=#{Cinfo},Did=#{Did},Dname=#{Dname} where Cid=#{Cid}")
     int update(Course course);
-    @Select("select * from Course where Mid=#{Mid}")
-    List<Course> getCourseListByMid(Long Mid);
+    @Select("select * from Course where Did=#{Did}")
+    List<Course> getCourseListByDid(Long Did);
+    @Select("select * from Course where Cid=#{Cid}")
+    Course getCourseByCid(Long Cid);
 }

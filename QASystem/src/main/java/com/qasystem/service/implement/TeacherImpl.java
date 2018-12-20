@@ -3,6 +3,7 @@ package com.qasystem.service.implement;
 import com.qasystem.dao.TeacherMapper;
 import com.qasystem.domain.Teacher;
 import com.qasystem.service.TeacherService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +22,15 @@ public class TeacherImpl implements TeacherService {
         return this.teacherMapper.delete(teacher);
     }
     @Override
-    public int update(Teacher teacher){
-        return this.teacherMapper.update(teacher);
+    public int update(Long Tid,String Tname,String Tpsw,String Tinfo,String Tlevel){
+        return this.teacherMapper.update(Tid,Tname,Tpsw,Tinfo,Tlevel);
     }
     @Override
-    public List<Teacher> getTeacherListByMid(Long Mid){
-        return this.teacherMapper.getTeacherListByMid(Mid);
+    public List<Teacher> getTeacherListByDid(Long Did){
+        return this.teacherMapper.getTeacherListByDid(Did);
+    }
+    @Override
+    public Teacher getTeacherByTid(Long Tid){
+        return this.teacherMapper.getTeacherByTid(Tid);
     }
 }

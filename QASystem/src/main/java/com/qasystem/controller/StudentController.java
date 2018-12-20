@@ -26,24 +26,24 @@ public class StudentController {
     private StudentService studentService;
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @RequestMapping("/StudentList")
-    @ResponseBody
-    public void queryStudentList(HttpServletRequest request, HttpServletResponse response){
-        try {
-            String page = "1"; // 取得当前页数,注意这是jqgrid自身的参数
-            String rows = "5";
-            Map<String,Object> params = new HashMap<String,Object>();
-            params.put("page", page);
-            params.put("rows", rows);
-            List<Student> StudentList = studentService.queryStudentList(params);
-            PageInfo<Student> pageInfo =new PageInfo<>(StudentList);
-            JSONObject jo=new JSONObject();
-            jo.put("rows", StudentList);
-            jo.put("total", pageInfo.getPages());//总页数
-            jo.put("records",pageInfo.getTotal());//查询出的总记录数
-            ServletUtil.createSuccessResponse(200, jo, response);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
+//    @RequestMapping("/StudentList")
+//    @ResponseBody
+//    public void queryStudentList(HttpServletRequest request, HttpServletResponse response){
+//        try {
+//            String page = "1"; // 取得当前页数,注意这是jqgrid自身的参数
+//            String rows = "5";
+//            Map<String,Object> params = new HashMap<String,Object>();
+//            params.put("page", page);
+//            params.put("rows", rows);
+//            List<Student> StudentList = studentService.queryStudentList(params);
+//            PageInfo<Student> pageInfo =new PageInfo<>(StudentList);
+//            JSONObject jo=new JSONObject();
+//            jo.put("rows", StudentList);
+//            jo.put("total", pageInfo.getPages());//总页数
+//            jo.put("records",pageInfo.getTotal());//查询出的总记录数
+//            ServletUtil.createSuccessResponse(200, jo, response);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 }

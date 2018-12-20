@@ -15,20 +15,7 @@
             <th:block th:if="${session.iden}=='iden_admin'">
                 <div>
                     <span th:text="${session.username}"></span>您好，
-                    <a href="/manage" th:href="@{/manage}">管理</a>
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_teacher'">
-                <div>
-                    <span th:text="${session.username}"></span>老师您好，
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_student'">
-                <div>
-                    <span th:text="${session.username}"></span>同学您好，
+                    <a href="/manage" th:href="@{/templates/manage}">管理</a>
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
@@ -56,22 +43,49 @@
 </nav>
 <div class="content">
     <section class="left">
-
+        <ul>
+            <li><a id="deptManage" th:href="@{/manage/dept}">学院信息管理</a></li>
+            <li><a id="courseManage" th:href="@{/manage/course}">课程信息管理</a></li>
+            <li><a id="teacherManage" th:href="@{/manage/teacher}">教师信息管理</a></li>
+            <li><a id="questionManage" th:href="@{/search}">留言信息管理</a></li>
+        </ul>
     </section>
     <section class="main">
-        <th:block th:each="question:${QuestionList}">
-            <div style="background-color: #ccc;">
-                <a th:href="@{/question(Qid=${question.Qid})}"><h3><span th:text="${question.Qtitle}"></span></h3></a>
-                <p th:text="${question.Qtext}"></p>
-            </div>
-        </th:block>
+        <div>
+            <table>
+                <tr>
+                    <td>学院号</td><td>学院名</td><td>学院信息</td>
+                </tr>
+                <th:block th:each="dept:${DeptList}">
+                    <tr>
+                        <td th:text="${dept.Did}"></td>
+                        <td th:text="${dept.Dname}"></td>
+                        <td th:text="${dept.Dinfo}"></td>
+                        <td><button id="editDept" th:value="${dept.Did}">修改</button></td>
+                    </tr>
+                </th:block>
+            </table>
+        </div>
+        <div>
+            <p>添加学院信息</p>
+            学院号：<input type="text" name="Did" id="Did"><br>
+            学院名：<input type="text" name="Dname" id="Dname"><br>
+            学院信息：<input type="text" name="Dinfo" id="Dinfo"><br>
+            <button id="addDept">添加</button>
+        </div>
     </section>
     <section class="right">
-        <h3>xxx</h3>
+        <h3></h3>
         <ul>
-            <li>xxx</li>
+            <li>html</li>
+            <li>html1</li>
+            <li>html2</li>
+            <li>html3</li>
+            <li>html4</li>
         </ul>
     </section>
 </div>
+<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/managePage.js}"></script>
 </body>
 </html>

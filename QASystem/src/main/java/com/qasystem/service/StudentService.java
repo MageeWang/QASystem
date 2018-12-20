@@ -10,5 +10,4 @@ public interface StudentService {
     int insert(Student student);
     int update(Student student);
     Student getStudentBySid(@Param("Sid") Long Sid);
-    List<Student> queryStudentList(Map<String, Object> params);
 }

@@ -6,8 +6,6 @@ public class Teacher {
     private String Tpsw;
     private Long Did;
     private String Dname;
-    private Long Mid;
-    private String Mname;
     private String Tinfo;
     private String Tlevel;
 
@@ -21,14 +19,6 @@ public class Teacher {
 
     public void setDname(String dname) {
         Dname = dname;
-    }
-
-    public String getMname() {
-        return Mname;
-    }
-
-    public void setMname(String mname) {
-        Mname = mname;
     }
 
     public void setTid(Long tid) {
@@ -65,14 +55,6 @@ public class Teacher {
 
     public void setDid(Long did) {
         Did = did;
-    }
-
-    public Long getMid() {
-        return Mid;
-    }
-
-    public void setMid(Long mid) {
-        Mid = mid;
     }
 
     public String getTlevel() {

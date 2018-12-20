@@ -11,11 +11,13 @@ import java.util.List;
 @Mapper
 public interface DepartmentMapper {
     @Insert("insert into Department values(#{Did},#{Dname},#{Dinfo})")
-    int addNewDept(Department department);
-    @Update("update Department set Dinfo = #{Dinfo} where Did = #{DId}")
-    int updateDept(Long Did,String Dinfo);
+    int insert(Department department);
     @Delete("delete from Department where Did = #{Did}")
-    int deleteDept(Long Did);
+    int delete(Department department);
+    @Update("update Department set Dname = #{Dname},Dinfo = #{Dinfo} where Did = #{Did}")
+    int update(Department department);
     @Select("select * from Department")
-    List<Department> queryDeptList();
+    List<Department> getDeptList();
+    @Select("select * from Department where Did=#{Did}")
+    Department getDeptByDid(Long Did);
 }

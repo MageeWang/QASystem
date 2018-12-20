@@ -26,9 +26,4 @@ public class StudentImpl implements StudentService{
     public Student getStudentBySid(Long Sid){
         return this.studentMapper.getStudentBySid(Sid);
     }
-    @Override
-    public List<Student> queryStudentList(Map<String,Object> param){
-        PageHelper.startPage(Integer.parseInt(param.get("page").toString()),Integer.parseInt(param.get("rows").toString()));
-        return this.studentMapper.queryStudentList(param);
-    }
 }

@@ -8,8 +8,6 @@ public class Student {
     private String Spsw;
     private Long Did;
     private String Dname;
-    private Long Mid;
-    private String Mname;
     private String Syear;
 
     public Long getSid() {
@@ -44,14 +42,6 @@ public class Student {
         Did = did;
     }
 
-    public Long getMid() {
-        return Mid;
-    }
-
-    public void setMid(Long mid) {
-        Mid = mid;
-    }
-
     public String getSyear() {
         return Syear;
     }
@@ -68,11 +58,4 @@ public class Student {
         Dname = dname;
     }
 
-    public String getMname() {
-        return Mname;
-    }
-
-    public void setMname(String mname) {
-        Mname = mname;
-    }
 }

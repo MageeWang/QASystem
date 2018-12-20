@@ -3,6 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <title>问题详情</title>
 </head>
 
 <body class="body">
@@ -16,19 +17,6 @@
                 <div>
                     <span th:text="${session.username}"></span>您好，
                     <a href="/manage" th:href="@{/manage}">管理</a>
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_teacher'">
-                <div>
-                    <span th:text="${session.username}"></span>老师您好，
-                    <a th:href="@{/logout}">退出</a>
-                </div>
-            </th:block>
-            <th:block th:if="${session.iden}=='iden_student'">
-                <div>
-                    <span th:text="${session.username}"></span>同学您好，
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
@@ -59,12 +47,16 @@
 
     </section>
     <section class="main">
-        <th:block th:each="question:${QuestionList}">
-            <div style="background-color: #ccc;">
-                <a th:href="@{/question(Qid=${question.Qid})}"><h3><span th:text="${question.Qtitle}"></span></h3></a>
-                <p th:text="${question.Qtext}"></p>
-            </div>
-        </th:block>
+        <div>
+            <th:block th:if="${Question.Qans=='*'}">
+                <h3 th:text="${Question.Qtitle}+'[未解答]'"></h3>
+            </th:block>
+            <th:block th:if="${Question.Qans!='*'}">
+                <h3 th:text="${Question.Qtitle}"></h3>
+            </th:block>
+            <p th:text="'提问者：'+${Question.Sname}+' 同学'"></p>
+            <p th:text="'问题描述：'+${Question.Qtext}"></p>
+        </div>
     </section>
     <section class="right">
         <h3>xxx</h3>

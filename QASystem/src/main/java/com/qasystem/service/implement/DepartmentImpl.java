@@ -12,24 +12,24 @@ import java.util.List;
 public class DepartmentImpl implements DeptService {
     @Autowired
     DepartmentMapper departmentMapper;
-
     @Override
-    public int addNewDept(Department department) {
-        return this.departmentMapper.addNewDept(department);
+    public int insert(Department department){
+        return this.departmentMapper.insert(department);
     }
-
     @Override
-    public int updateDept(Long Did, String Dinfo) {
-        return this.departmentMapper.updateDept(Did,Dinfo);
+    public int delete(Department department){
+        return this.departmentMapper.delete(department);
     }
-
     @Override
-    public int deleteDept(Long Did) {
-        return this.departmentMapper.deleteDept(Did);
+    public int update(Department department){
+        return this.departmentMapper.update(department);
     }
-
     @Override
-    public List<Department> queryDeptList() {
-        return this.departmentMapper.queryDeptList();
+    public List<Department> getDeptList(){
+        return this.departmentMapper.getDeptList();
+    }
+    @Override
+    public Department getDeptByDid(Long Did){
+        return this.departmentMapper.getDeptByDid(Did);
     }
 }
