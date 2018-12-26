@@ -1,6 +1,7 @@
 package com.qasystem.service.implement;
 
 import com.qasystem.dao.TeacherMapper;
+import com.qasystem.domain.Question;
 import com.qasystem.domain.Teacher;
 import com.qasystem.service.TeacherService;
 import org.apache.ibatis.annotations.Param;
@@ -32,5 +33,9 @@ public class TeacherImpl implements TeacherService {
     @Override
     public Teacher getTeacherByTid(Long Tid){
         return this.teacherMapper.getTeacherByTid(Tid);
+    }
+    @Override
+    public List<Question> getUnAnsweredQuestionList(Long Tid){
+        return this.teacherMapper.getUnAnsweredQuestionList(Tid);
     }
 }

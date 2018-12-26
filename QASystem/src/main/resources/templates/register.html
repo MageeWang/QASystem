@@ -2,18 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>统一登录认证</title>
+    <title>学生注册</title>
 </head>
 <body>
-<div align="center">
-    账号：<input type="text" id="username" name="username"><br>
-    密码：<input type="password" id="password" name="password"><br>
-    身份：<input type="radio" id="iden" name="iden" value="iden_admin">管理
-    <input type="radio" name="iden" value="iden_teacher">教师
-    <input type="radio" name="iden" value="iden_student" checked="checked">学生<br>
-    <button id="Login">登录</button><button id="Register">注册</button>
+<div align="center" style="margin-top: 20%;">
+    学院：
+    <select id="Did">
+        <option></option>
+        <th:block th:each="dept:${DeptList}">
+            <option th:value="${dept.Did}" th:text="${dept.Dname}"></option>
+        </th:block>
+    </select>
+    年份：
+    <select id="Syear">
+        <option></option>
+        <option>2018</option>
+        <option>2017</option>
+        <option>2016</option>
+    </select><br>
+    学号：<input type="text" id="Sid"><br>
+    姓名：<input type="text" id="Sname"><br>
+    密码：<input type="password" id="Spsw"><br>
+    <button id="Register">注册</button>&nbsp;&nbsp;&nbsp;&nbsp;<button id="Login">返回登录</button>
 </div>
-<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/Login.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/Register.js}"></script>
 </body>
 </html>

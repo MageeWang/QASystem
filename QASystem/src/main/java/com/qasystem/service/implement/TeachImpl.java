@@ -28,4 +28,8 @@ public class TeachImpl implements TeachService {
     public List<Teach> getCourseListByTid(Long Tid){
         return this.teachMapper.getCourseListByTid(Tid);
     }
+    @Override
+    public Teach getTeach(Teach teach){
+        return this.teachMapper.getTeach(teach.getCid(),teach.getTid());
+    }
 }

@@ -9,4 +9,5 @@ public interface TeachService {
     int delete(Teach teach);
     List<Teach> getCourseListByCid(Long Cid);
     List<Teach> getCourseListByTid(Long Tid);
+    Teach getTeach(Teach teach);
 }

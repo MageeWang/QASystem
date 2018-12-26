@@ -12,6 +12,16 @@ public class Question {
     private String Qtext;
     private String Qtime;
     private boolean Qfile;
+    private String Qhref;
+
+    public String getQhref() {
+        return Qhref;
+    }
+
+    public void setQhref(String qhref) {
+        Qhref = qhref;
+    }
+
     private Integer Qunread;
 
     public Integer getQunread() {

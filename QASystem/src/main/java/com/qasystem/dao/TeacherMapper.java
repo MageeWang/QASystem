@@ -1,9 +1,11 @@
 package com.qasystem.dao;
 
+import com.qasystem.domain.Question;
 import com.qasystem.domain.Teacher;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -19,4 +21,6 @@ public interface TeacherMapper {
     List<Teacher> getTeacherListByDid(Long Did);
     @Select("select * from Teacher where Tid=#{Tid}")
     Teacher getTeacherByTid(Long Tid);
+    @Select("select * from Question where Cid in (select Cid from Teach where Tid=#{Tid}) and Qid not in (select Qid from Answer where Tid=#{Tid})")
+    List<Question> getUnAnsweredQuestionList(Long Tid);
 }

@@ -3,42 +3,47 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body class="body">
 <header class="head">
     <div style="float: right;margin-right: 0;margin-top: 0">
-        <th:block th:if="${session.username}==null">
+        <th:block th:if="${session.USER}==null">
             <a href="/login" th:href="@{/login}">登录</a>
         </th:block>
-        <th:block th:if="${session.username}!=null">
+        <th:block th:if="${session.USER}!=null">
             <th:block th:if="${session.iden}=='iden_admin'">
                 <div>
-                    <span th:text="${session.username}"></span>您好，
-                    <a href="/manage" th:href="@{/templates/manage}">管理</a>
+                    <span th:text="${session.USER}+' 您好，'"></span>
+                    <a href="/manage" th:href="@{/manage}">管理</a>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_teacher'">
+                <div>
+                    <a th:href="@{/teacher(Tid=${session.USER.Tid})}"><span th:text="${session.USER.Tname}"></span></a><span th:text="' 老师您好，'"></span>
+                    <span th:text="${UnansweredNum}+' 条未回答问题'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_student'">
+                <div>
+                    <a th:href="@{/student(Sid=${session.USER.Sid})}"><span th:text="${session.USER.Sname}"></span></a><span th:text="' 同学您好，'"></span>
+                    <span th:text="${UnreadNum}+' 条新解答'"></span>
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
         </th:block>
     </div>
 </header>
-<nav class="nav">
-    <ul>
-        <li><a href="/" th:href="@{/}">首页</a></li>
-        <li><a href="/" th:href="@{/department}">学院</a></li>
-        <li><a href="/" th:href="@{/search}">查看所有留言</a></li>
-        <li style="float: right">
-            <input type="text" id="searchParam" name="search">
-            <select name="searchType" id="searchType">
-                <option></option>
-                <option>学院</option>
-                <option>专业</option>
-                <option>课程</option>
-                <option>教师</option>
-                <option>内容</option>
-            </select>
-            <button id="searchButton">搜索</button>
-        </li>
+<nav>
+    <ul class="nav">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/department}">学院</a></li>
+        <li><a th:href="@{/course}">课程</a></li>
+        <li><a th:href="@{/teacher}">教师</a></li>
+        <li><a th:href="@{/search}">检索</a></li>
     </ul>
 </nav>
 <div class="content">
@@ -51,41 +56,25 @@
         </ul>
     </section>
     <section class="main">
-        <div>
-            <table>
-                <tr>
-                    <td>学院号</td><td>学院名</td><td>学院信息</td>
+        <table id="deptTable">
+            <thead><h4>学院列表</h4></thead>
+            <tr>
+                <td>学院号</td><td>学院名</td><td>学院信息</td><td><button id="addDept">添加</button></td>
+            </tr>
+            <th:block th:each="dept:${DeptList}">
+                <tr th:id="'tr_'+${dept.Did}">
+                    <td th:text="${dept.Did}"></td>
+                    <td th:text="${dept.Dname}"></td>
+                    <td th:text="${dept.Dinfo}"></td>
+                    <td><button id="editDept" th:value="${dept.Did}">修改</button></td>
                 </tr>
-                <th:block th:each="dept:${DeptList}">
-                    <tr>
-                        <td th:text="${dept.Did}"></td>
-                        <td th:text="${dept.Dname}"></td>
-                        <td th:text="${dept.Dinfo}"></td>
-                        <td><button id="editDept" th:value="${dept.Did}">修改</button></td>
-                    </tr>
-                </th:block>
-            </table>
-        </div>
-        <div>
-            <p>添加学院信息</p>
-            学院号：<input type="text" name="Did" id="Did"><br>
-            学院名：<input type="text" name="Dname" id="Dname"><br>
-            学院信息：<input type="text" name="Dinfo" id="Dinfo"><br>
-            <button id="addDept">添加</button>
-        </div>
+            </th:block>
+        </table>
     </section>
     <section class="right">
-        <h3></h3>
-        <ul>
-            <li>html</li>
-            <li>html1</li>
-            <li>html2</li>
-            <li>html3</li>
-            <li>html4</li>
-        </ul>
     </section>
 </div>
-<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/managePage.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/manage/DeptManagePage.js}"></script>
 </body>
 </html>

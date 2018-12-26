@@ -18,24 +18,5 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class QasystemApplicationTests {
-    @Autowired
-    private AnswerImpl answerImpl;
-    @Test
-    @Transactional
-    public void contextLoads() {
-        Answer answer = new Answer();
-        answer.setQid(1L);
-        answer.setTid(12002L);
-        answer.setTname("ttttt");
-        answer.setAtext("aaaaa");
-        answer.setAtime("2018-12-20 10:43");
-        answer.setAfile(false);
-        answerImpl.insert(answer);
-        System.out.println(answerImpl.getAnswerListByQid(1L).get(1).getTname());
-        answer.setTname("zzzzz");
-        answer.setAtext("zzzzz");
-        answerImpl.update(answer);
-        System.out.println(answerImpl.getAnswerListByQid(1L).get(1).getTname());
-        answerImpl.deleteByQid(12002L);
-    }
+
 }

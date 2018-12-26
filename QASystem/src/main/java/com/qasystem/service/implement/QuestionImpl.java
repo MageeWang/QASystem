@@ -3,6 +3,7 @@ package com.qasystem.service.implement;
 import com.qasystem.dao.QuestionMapper;
 import com.qasystem.domain.Question;
 import com.qasystem.service.QuestionService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,10 @@ public class QuestionImpl implements QuestionService {
     @Override
     public int updateUnread(Long Qid,Integer Qunread) {
         return this.questionMapper.updateUnread(Qid,Qunread);
+    }
+    @Override
+    public int uploadFile(Long Qid,boolean Qfile,String Qhref){
+        return this.questionMapper.uploadFile(Qid,Qfile,Qhref);
     }
     @Override
     public List<Question> searchQuestionList(Map<String, Object> param) {

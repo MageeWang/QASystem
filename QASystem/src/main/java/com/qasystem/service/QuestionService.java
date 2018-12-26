@@ -12,6 +12,7 @@ public interface QuestionService {
     int delete(Long Qid);
     int updateQuestion(@Param("Qid") Long Qid, @Param("Qtitle") String Qtitle, @Param("Qtext") String Qtext, @Param("Qtime") String Qtime, @Param("Qfile") boolean Qfile);
     int updateUnread(@Param("Qid") Long Qid,@Param("Qunread") Integer Qunread);
+    int uploadFile(@Param("Qid") Long Qid,@Param("Qfile") boolean Qfile,@Param("Qhref") String Qhref);
     List<Question> searchQuestionList(Map<String,Object> param);
     Question getQuestion(Long Qid);
 }

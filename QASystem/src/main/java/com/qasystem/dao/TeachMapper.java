@@ -1,10 +1,7 @@
 package com.qasystem.dao;
 
 import com.qasystem.domain.Teach;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,4 +17,6 @@ public interface TeachMapper {
     List<Teach> getCourseListByCid(Long Cid);
     @Select("select * from Teach where Tid=#{Tid}")
     List<Teach> getCourseListByTid(Long Tid);
+    @Select("select * from Teach where Cid=#{Cid} and Tid=#{Tid}")
+    Teach getTeach(@Param("Cid") Long Cid,@Param("Tid") Long Tid);
 }

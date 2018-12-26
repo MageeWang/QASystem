@@ -3,43 +3,47 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/css/index.css}" rel="stylesheet" />
-    <title>问题详情</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body class="body">
 <header class="head">
     <div style="float: right;margin-right: 0;margin-top: 0">
-        <th:block th:if="${session.username}==null">
+        <th:block th:if="${session.USER}==null">
             <a href="/login" th:href="@{/login}">登录</a>
         </th:block>
-        <th:block th:if="${session.username}!=null">
+        <th:block th:if="${session.USER}!=null">
             <th:block th:if="${session.iden}=='iden_admin'">
                 <div>
-                    <span th:text="${session.username}"></span>您好，
+                    <span th:text="${session.USER}+' 您好，'"></span>
                     <a href="/manage" th:href="@{/manage}">管理</a>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_teacher'">
+                <div>
+                    <a th:href="@{/teacher(Tid=${session.USER.Tid})}"><span th:text="${session.USER.Tname}"></span></a><span th:text="' 老师您好，'"></span>
+                    <span th:text="${UnansweredNum}+' 条未回答问题'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_student'">
+                <div>
+                    <a th:href="@{/student(Sid=${session.USER.Sid})}"><span th:text="${session.USER.Sname}"></span></a><span th:text="' 同学您好，'"></span>
+                    <span th:text="${UnreadNum}+' 条新解答'"></span>
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
         </th:block>
     </div>
 </header>
-<nav class="nav">
-    <ul>
-        <li><a href="/" th:href="@{/}">首页</a></li>
-        <li><a href="/" th:href="@{/department}">学院</a></li>
-        <li><a href="/" th:href="@{/search}">查看所有留言</a></li>
-        <li style="float: right">
-            <input type="text" id="searchParam" name="search">
-            <select name="searchType" id="searchType">
-                <option></option>
-                <option>学院</option>
-                <option>专业</option>
-                <option>课程</option>
-                <option>教师</option>
-                <option>内容</option>
-            </select>
-            <button id="searchButton">搜索</button>
-        </li>
+<nav>
+    <ul class="nav">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/department}">学院</a></li>
+        <li><a th:href="@{/course}">课程</a></li>
+        <li><a th:href="@{/teacher}">教师</a></li>
+        <li><a th:href="@{/search}">检索</a></li>
     </ul>
 </nav>
 <div class="content">
@@ -48,22 +52,54 @@
     </section>
     <section class="main">
         <div>
-            <th:block th:if="${Question.Qans=='*'}">
-                <h3 th:text="${Question.Qtitle}+'[未解答]'"></h3>
+            <span th:text="${Question.Qtitle}"></span><br>
+            <th:block th:if="${AnswerList.isEmpty()}">
+                <span>[未解答]</span><br>
             </th:block>
-            <th:block th:if="${Question.Qans!='*'}">
-                <h3 th:text="${Question.Qtitle}"></h3>
-            </th:block>
-            <p th:text="'提问者：'+${Question.Sname}+' 同学'"></p>
+            <br><p th:text="'提问者：'+${Question.Sname}+' 同学'"></p>
             <p th:text="'问题描述：'+${Question.Qtext}"></p>
+            <p th:text="'问题时间：'+${Question.Qtime}"></p>
+            <th:block th:if="${Question.Qfile}">
+                <p>附件：<a th:href="@{${Question.Qhref}}" th:text="点击查看"></a></p>
+            </th:block>
+            <th:block th:if="${session.iden=='iden_student'}">
+                <th:block th:if="${session.USER.Sid==Question.Sid}">
+                    <a th:href="@{/edit(Qid=${Question.Qid})}">修改提问</a>
+                    <a th:href="@{/deleteQuestion(Qid=${Question.Qid})}">删除提问</a>
+                </th:block>
+            </th:block>
+            <th:block th:if="${session.iden=='iden_admin'}">
+                <a th:href="@{/deleteQuestion(Qid=${Question.Qid})} ">删除提问</a>
+            </th:block>
         </div>
+        <th:block th:if="${!AnswerList.isEmpty()}">
+            <th:block th:each="answer:${AnswerList}">
+                <div>
+                    <p th:text="${answer.Tname}+' 老师：'"></p>
+                    <p th:text="${answer.Atext}"></p>
+                    <p th:text="${answer.Atime}"></p>
+                </div>
+            </th:block>
+        </th:block>
+        <th:block th:if="${session.iden=='iden_teacher'}">
+            <th:block th:if="${isAnswerable}">
+                <th:block th:if="${!isAnswered}">
+                    <span style="float: left">回答：&nbsp;</span><div id="Atext" contenteditable="true" class="qtext"></div><br>
+                    <button id="postAnswer" th:value="${Question.Qid}">回答</button>
+                </th:block>
+            </th:block>
+            <th:block th:if="${isAnswerable&&isAnswered}">
+                <span>您已回答过该问题</span>
+                <button id="editAnswer" th:value="${Question.Qid}">修改</button>
+                <button id="deleteAnswer" th:value="${Question.Qid}">删除</button>
+                <div id="editForm"></div>
+            </th:block>
+        </th:block>
     </section>
     <section class="right">
-        <h3>xxx</h3>
-        <ul>
-            <li>xxx</li>
-        </ul>
     </section>
 </div>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/question/question.js}"></script>
 </body>
 </html>

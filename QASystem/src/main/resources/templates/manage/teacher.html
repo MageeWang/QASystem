@@ -1,127 +1,76 @@
-<!--<!DOCTYPE html>-->
-<!--<html xmlns:th="http://www.thymeleaf.org">-->
-<!--<head>-->
-<!--<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
-<!--<title>管理</title>-->
-<!--</head>-->
-<!--<body>-->
-<!--<div>-->
-<!--<p>添加学院信息</p>-->
-<!--学院号：<input type="text" name="Did_0" id="Did_0"><br>-->
-<!--学院名：<input type="text" name="Dname_0" id="Dname_0"><br>-->
-<!--学院信息：<input type="text" name="Dinfo_0" id="Dinfo_0"><br>-->
-<!--<button id="addDept">添加</button>-->
-<!--</div>-->
-<!--<div>-->
-<!--<p>添加专业信息</p>-->
-<!--所属学院：-->
-<!--<select id="Did_1">-->
-<!--<option></option>-->
-<!--<th:block th:each="dept:${session.DeptList}">-->
-<!--<option th:text="${dept.Dname}" th:value="${dept.Did}"></option>-->
-<!--</th:block>-->
-<!--</select><br>-->
-<!--专业号：<input type="text" name="Mid_1" id="Mid_1"><br>-->
-<!--专业名：<input type="text" name="Mname_1" id="Mname_1"><br>-->
-<!--专业信息：<input type="text" name="Minfo_1" id="Minfo_1"><br>-->
-<!--<button id="addMajor">添加</button>-->
-<!--</div>-->
-<!--<div>-->
-<!--<p>添加课程信息</p>-->
-<!--所属学院：-->
-<!--<select id="Did_2">-->
-<!--<option></option>-->
-<!--<th:block th:each="dept:${session.DeptList}">-->
-<!--<option th:text="${dept.Dname}" th:value="${dept.Did}"></option>-->
-<!--</th:block>-->
-<!--</select>-->
-<!--所属专业：-->
-<!--<select id="Mid_2">-->
-<!--<option></option>-->
-<!--<option>智能科学与技术</option>-->
-<!--<option>计算机科学与技术</option>-->
-<!--<option>网络工程</option>-->
-<!--</select><br>-->
-<!--课程号：<input type="text" name="Cid_2" id="Cid_2"><br>-->
-<!--课程名：<input type="text" name="Cname_2" id="Cname_2"><br>-->
-<!--课程信息：<input type="text" name="Cinfo_2" id="Cinfo_2"><br>-->
-<!--<button id="addCourse">添加</button>-->
-<!--</div>-->
-<!--<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>-->
-<!--<script type="text/javascript" th:src="@{/js/managePage.js}"></script>-->
-<!--</body>-->
-<!--</html>-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 
 <body class="body">
 <header class="head">
     <div style="float: right;margin-right: 0;margin-top: 0">
-        <th:block th:if="${session.username}==null">
+        <th:block th:if="${session.USER}==null">
             <a href="/login" th:href="@{/login}">登录</a>
         </th:block>
-        <th:block th:if="${session.username}!=null">
+        <th:block th:if="${session.USER}!=null">
             <th:block th:if="${session.iden}=='iden_admin'">
                 <div>
-                    <span th:text="${session.username}"></span>您好，
-                    <a href="/manage" th:href="@{/templates/manage}">管理</a>
+                    <span th:text="${session.USER}+' 您好，'"></span>
+                    <a href="/manage" th:href="@{/manage}">管理</a>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_teacher'">
+                <div>
+                    <a th:href="@{/teacher(Tid=${session.USER.Tid})}"><span th:text="${session.USER.Tname}"></span></a><span th:text="' 老师您好，'"></span>
+                    <span th:text="${UnansweredNum}+' 条未回答问题'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_student'">
+                <div>
+                    <a th:href="@{/student(Sid=${session.USER.Sid})}"><span th:text="${session.USER.Sname}"></span></a><span th:text="' 同学您好，'"></span>
+                    <span th:text="${UnreadNum}+' 条新解答'"></span>
                     <a th:href="@{/logout}">退出</a>
                 </div>
             </th:block>
         </th:block>
     </div>
 </header>
-<nav class="nav">
-    <ul>
-        <li><a href="/" th:href="@{/}">首页</a></li>
-        <li><a href="/" th:href="@{/department}">学院</a></li>
-        <li><a href="/" th:href="@{/search}">查看所有留言</a></li>
-        <li style="float: right">
-            <input type="text" id="searchParam" name="search">
-            <select name="searchType" id="searchType">
-                <option></option>
-                <option>学院</option>
-                <option>专业</option>
-                <option>课程</option>
-                <option>教师</option>
-                <option>内容</option>
-            </select>
-            <button id="searchButton">搜索</button>
-        </li>
+<nav>
+    <ul class="nav">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/department}">学院</a></li>
+        <li><a th:href="@{/course}">课程</a></li>
+        <li><a th:href="@{/teacher}">教师</a></li>
+        <li><a th:href="@{/search}">检索</a></li>
     </ul>
 </nav>
 <div class="content">
     <section class="left">
         <ul>
             <li><a id="deptManage" th:href="@{/manage/dept}">学院信息管理</a></li>
-            <li><a id="majorManage" th:href="@{/manage/major}">专业信息管理</a></li>
             <li><a id="courseManage" th:href="@{/manage/course}">课程信息管理</a></li>
             <li><a id="teacherManage" th:href="@{/manage/teacher}">教师信息管理</a></li>
             <li><a id="questionManage" th:href="@{/search}">留言信息管理</a></li>
         </ul>
     </section>
     <section class="main">
-        <div id="myDiv">
-            <table id="myTable" border="1"></table>
-            <div id="myForm"></div>
-        </div>
+        学院归属：
+        <select id="deptDrop">
+            <option></option>
+            <th:block th:each="dept:${DeptList}">
+                <option th:text="${dept.Dname}" th:value="${dept.Did}"></option>
+            </th:block>
+        </select>
+        <table id="teacherTable" style="width: 100%">
+        </table>
+        <div id="addTeacher" style="border: 0px"></div>
     </section>
     <section class="right">
-        <h3></h3>
-        <ul>
-            <li>html</li>
-            <li>html1</li>
-            <li>html2</li>
-            <li>html3</li>
-            <li>html4</li>
-        </ul>
     </section>
 </div>
-<script type="text/javascript" th:src="@{/js/jquery-3.3.1.min.js}"></script>
-<script type="text/javascript" th:src="@{/js/managePage.js}"></script>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/manage/TeacherManagePage.js}"></script>
 </body>
 </html>

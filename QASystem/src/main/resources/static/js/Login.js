@@ -24,6 +24,6 @@ $("#Login").click(function (e) {
     }
 });
 
-$("Register").click(function (e) {
-    window.location.href = "/register";
+$("#Register").click(function (e) {
+    window.location.href="/register";
 });

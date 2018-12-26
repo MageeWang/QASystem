@@ -3,6 +3,7 @@ package com.qasystem.dao;
 import com.qasystem.domain.Question;
 import com.qasystem.tools.StringUtil;
 import org.apache.ibatis.annotations.*;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +22,8 @@ public interface QuestionMapper {
     int updateQuestion(@Param("Qid") Long Qid,@Param("Qtitle") String Qtitle,@Param("Qtext") String Qtext,@Param("Qtime") String Qtime,@Param("Qfile") boolean Qfile);
     @Update("update Question set Qunread=#{Qunread} where Qid=#{Qid}")
     int updateUnread(@Param("Qid") Long Qid,@Param("Qunread") Integer Qunread);
+    @Update("update Question set Qfile=#{Qfile},Qhref=#{Qhref} where Qid=#{Qid}")
+    int uploadFile(@Param("Qid") Long Qid,@Param("Qfile") boolean Qfile,@Param("Qhref") String Qhref);
     @SelectProvider(type = SearchSQLBuilder.class,method = "searchSQL")
     List<Question> searchQuestionList(Map<String,Object> param);
     @Select("select * from Question where Qid=#{Qid}")
@@ -30,14 +33,14 @@ public interface QuestionMapper {
         public String searchSQL(final Map<String,Object> param){
             StringBuffer sql = new StringBuffer();
             sql.append("select * from Question where 1=1");
-            if(!StringUtil.isNull((String)param.get("Sid"))){
-                sql.append(" and Sid=").append((String)param.get("Sid"));
+            if(param.get("Sid")!=null){
+                sql.append(" and Sid=").append(param.get("Sid"));
             }
-            if(!StringUtil.isNull((String)param.get("Cid"))){
-                sql.append(" and Cid=").append((String)param.get("Cid"));
+            if(param.get("Cid")!=null){
+                sql.append(" and Cid=").append(param.get("Cid"));
             }
-            if(!StringUtil.isNull((String)param.get("Did"))){
-                sql.append(" and Did=").append((String)param.get("Did"));
+            if(param.get("Did")!=null){
+                sql.append(" and Did=").append(param.get("Did"));
             }
             if(!StringUtil.isNull((String)param.get("Sname"))){
                 sql.append(" and Sname like '%").append((String)param.get("Sname")).append("%'");
@@ -48,14 +51,17 @@ public interface QuestionMapper {
             if(!StringUtil.isNull((String)param.get("Dname"))){
                 sql.append(" and Dname like '%").append((String)param.get("Dname")).append("%'");
             }
-            if(!StringUtil.isNull((String)param.get("Qtitle"))){
-                sql.append(" and Qtitle like '%").append((String)param.get("Qtitle")).append("%'");
+            if(!StringUtil.isNull((String)param.get("All"))) {
+                String contentParam = (String)param.get("All");
+                sql.append(" and (Qtitle like '%").append(contentParam).append("%'or Qtext like '%").append(contentParam).append("%')");
             }
-            if(!StringUtil.isNull((String)param.get("Qtext"))){
-                sql.append(" and Qtext like '%").append((String)param.get("Qtext")).append("%'");
+            if(!StringUtil.isNull((String)param.get("Tname"))){
+                sql = new StringBuffer("select * from Question where Qid in (select Qid from Answer where Tname like");
+                sql.append(" '%").append(param.get("Tname")).append("%')");
             }
             sql.append(" order by Qid desc");
             System.out.println("SQL:"+sql.toString());
+            System.out.println(param);
             return sql.toString();
         }
     }
