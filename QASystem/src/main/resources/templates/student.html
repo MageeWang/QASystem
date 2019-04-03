@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body class="body">
+<header class="head">
+    <div style="float: right;margin-right: 0;margin-top: 0">
+        <th:block th:if="${session.USER}==null">
+            <a href="/login" th:href="@{/login}">登录</a>
+        </th:block>
+        <th:block th:if="${session.USER}!=null">
+            <th:block th:if="${session.iden}=='iden_admin'">
+                <div>
+                    <span th:text="${session.USER}+' 您好，'"></span>
+                    <a href="/manage" th:href="@{/manage}">管理</a>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_teacher'">
+                <div>
+                    <a th:href="@{/teacher(Tid=${session.USER.Tid})}"><span th:text="${session.USER.Tname}"></span></a><span th:text="' 老师您好，'"></span>
+                    <span th:text="${UnansweredNum}+' 条未回答问题'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_student'">
+                <div>
+                    <a th:href="@{/student(Sid=${session.USER.Sid})}"><span th:text="${session.USER.Sname}"></span></a><span th:text="' 同学您好，'"></span>
+                    <span th:text="${UnreadNum}+' 条新解答'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</header>
+<nav>
+    <ul class="nav">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/department}">学院</a></li>
+        <li><a th:href="@{/course}">课程</a></li>
+        <li><a th:href="@{/teacher}">教师</a></li>
+        <li><a th:href="@{/search}">检索</a></li>
+    </ul>
+</nav>
+<div class="content">
+    <section class="left">
+        <ul>
+            <li><a href="/ask"><h3>我要提问</h3></a></li>
+        </ul>
+    </section>
+    <section class="main">
+        <h4 th:text="${Student.Sname}"></h4>
+        <span th:text="'简介：'+${Student.Dname}+'/'+${Student.Syear}+' 级'"></span><br><br>
+        <h6>我的问题：</h6>
+        <th:block th:each="question:${QuestionList}">
+            <div>
+                <a th:href="@{/question(Qid=${question.Qid})}"><h4><span th:text="${question.Qtitle}+'('+${question.Qunread}+' 条新回复)'"></span></h4></a><br>
+                <p><span th:text="'提问者: '+${question.Sname}+' 同学'"></span></p>
+                <p><span th:text="'Tag: '+${question.Dname}+' '+${question.Cname}"></span></p>
+            </div>
+        </th:block>
+        <span>
+            <th:block th:each="page:${pages}">
+                <a th:href="@{/index(page=${page})}" th:text="${page}"></a><span th:text="'  '"></span>
+            </th:block>
+        </span>
+    </section>
+    <section class="right">
+    </section>
+</div>
+</body>
+</html>

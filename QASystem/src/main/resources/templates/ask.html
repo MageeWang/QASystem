@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/index.css}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+
+<body class="body">
+<header class="head">
+    <div style="float: right;margin-right: 0;margin-top: 0">
+        <th:block th:if="${session.USER}==null">
+            <a href="/login" th:href="@{/login}">登录</a>
+        </th:block>
+        <th:block th:if="${session.USER}!=null">
+            <th:block th:if="${session.iden}=='iden_admin'">
+                <div>
+                    <span th:text="${session.USER}+' 您好，'"></span>
+                    <a href="/manage" th:href="@{/manage}">管理</a>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_teacher'">
+                <div>
+                    <a th:href="@{/teacher(Tid=${session.USER.Tid})}"><span th:text="${session.USER.Tname}"></span></a><span th:text="' 老师您好，'"></span>
+                    <span th:text="${UnansweredNum}+' 条未回答问题'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+            <th:block th:if="${session.iden}=='iden_student'">
+                <div>
+                    <a th:href="@{/student(Sid=${session.USER.Sid})}"><span th:text="${session.USER.Sname}"></span></a><span th:text="' 同学您好，'"></span>
+                    <span th:text="${UnreadNum}+' 条新解答'"></span>
+                    <a th:href="@{/logout}">退出</a>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</header>
+<nav>
+    <ul class="nav">
+        <li><a th:href="@{/}">首页</a></li>
+        <li><a th:href="@{/department}">学院</a></li>
+        <li><a th:href="@{/course}">课程</a></li>
+        <li><a th:href="@{/teacher}">教师</a></li>
+        <li><a th:href="@{/search}">检索</a></li>
+    </ul>
+</nav>
+<div class="content">
+    <section class="left">
+    </section>
+    <section class="main">
+        <th:block th:if="${Question==null}">
+            <span>归属：</span>
+            <select id="deptDrop">
+                <option></option>
+                <th:block th:each="dept:${DeptList}">
+                    <option th:text="${dept.Dname}" th:value="${dept.Did}"></option>
+                </th:block>
+            </select>
+            <select id="courseDrop">
+                <option></option>
+                <option>请先选择院属</option>
+            </select><br><br>
+            标题：&nbsp;<input type="text" id="Qtitle" style="width: 50.5%"><br><br>
+            <span style="float: left">描述：&nbsp;</span><div id="Qtext" contenteditable="true" class="qtext"></div><br>
+            <button id="postQuestion">提问</button><input type="file" id="uploadFile" value="上传文件">
+        </th:block>
+        <th:block th:if="${Question!=null}">
+            <span th:text="'归属： '+${Question.Dname}+'  '+${Question.Cname}"></span><br><br>
+            标题：&nbsp;<input type="text" id="Qtitle" th:value="${Question.Qtitle}" style="width: 50.5%"><br><br>
+            <span style="float: left">描述：&nbsp;</span><div id="Qtext" contenteditable="true" class="qtext"><th:block th:text="${Question.Qtext}"></th:block></div><br>
+            <button id="editQuestion" th:value="${Question.Qid}">修改</button>
+            <input type="file" id="uploadFile" value="上传文件">
+            <th:block th:if="${Question.Qfile}">
+                <span>(已有附件，将覆盖先前附件)</span>
+            </th:block>
+        </th:block>
+    </section>
+    <section class="right">
+    </section>
+</div>
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.3.1.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/question/ask.js}"></script>
+</body>
+</html>
